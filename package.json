@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "node scripts/start-web.mjs",
     "public": "bash scripts/public-tunnel.sh",
+    "deploy": "bash scripts/deploy-fly.sh",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "signals": "python -m macrovol.cli run",

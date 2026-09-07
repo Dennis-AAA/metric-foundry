@@ -68,32 +68,47 @@ python -m macrovol.cli run --intraday           # 保留当天未收盘的行
 
 每次运行提交 `data/latest.json`、`data/timeline.json` 和 `data/history/<日期>.json`。前端部署（Vercel、静态托管或自托管 `npm run build && npm start`）读到新提交即更新。
 
-## 发到公网（别的电脑也能打开，也能点日度刷新）
+## 挂到固定域名（推荐 Fly.io）
 
-日度刷新必须跑 Python 引擎并写回 `data/`，所以需要一台**常驻进程**的主机，不能用纯静态页或 Vercel Serverless。
+日度刷新要跑 Python 并写回 `data/`，所以必须是常驻进程，不能用 Vercel / Cloudflare Pages。Fly 会给你一个**不会变**的地址：`https://gmunu-metric-foundry.fly.dev`，右上角刷新一样能点。
 
-### 本机 / 这台云主机立刻分享
-
-```bash
-npm run build
-npm run start          # 0.0.0.0:43180，带刷新接口
-npm run public         # Cloudflare Quick Tunnel → https://*.trycloudflare.com
-```
-
-把终端里打印的 `https://….trycloudflare.com` 发给任何电脑或手机即可打开，右上角「日度刷新」会打到这台机器上重算。Quick Tunnel **没有账号、不需要域名**，但地址每次重启会变，进程停了页面也就没了。
-
-### 长期挂在自己的服务器
-
-仓库根目录有 `Dockerfile`：
+在自己电脑上（先按上面的 Origin CLI 把仓库 clone 下来）：
 
 ```bash
-docker build -t macro-vol .
-docker run -p 43180:43180 macro-vol
+# 1. 注册/登录 Fly（浏览器授权，可用 GitHub / Google）
+curl -fsSL https://fly.io/install.sh | sh
+export PATH="$HOME/.fly/bin:$PATH"
+fly auth login
+
+# 2. 创建应用、1GB 数据盘并发布
+cd metric-foundry
+bash scripts/deploy-fly.sh
 ```
 
-或把仓库接到 Render / Fly / Railway 一类「Web Service」，启动命令 `npm run start`，构建命令 `npm ci && python3 -m venv .venv && .venv/bin/pip install -e ./engine && npm run build`。这些平台给固定 HTTPS 域名，刷新按钮一样可用。
+成功后打开 **https://gmunu-metric-foundry.fly.dev** 。以后改代码再跑一遍 `fly deploy` 即可。
 
-不要用 Vercel / Cloudflare Pages 当主站来点刷新：它们读不到本机 Python，也写不回磁盘。可以用它们只托管前端，数据更新改走 GitHub Actions。
+### 用自己的域名（例如 board.example.com）
+
+```bash
+fly certs add board.example.com -a gmunu-metric-foundry
+```
+
+然后在域名 DNS 加一条：
+
+| 类型 | 主机记录 | 目标 |
+| --- | --- | --- |
+| CNAME | `board` | `gmunu-metric-foundry.fly.dev` |
+
+证书由 Fly 自动签。把 `board.example.com` 换成你已经买好的域名即可。
+
+### 临时分享（地址会变）
+
+当前这次会话上的 Cloudflare 隧道仍可用，但**不是**固定域名，会话结束就没了：
+
+```bash
+npm run build && npm run start    # :8080 / :43180
+npm run public                    # https://*.trycloudflare.com
+```
 
 ## 数据源
 
