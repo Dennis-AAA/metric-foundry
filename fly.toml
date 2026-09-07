@@ -1,0 +1,43 @@
+# Fly.io → 固定域名 https://<app-name>.fly.dev
+# 首次：fly auth login && bash scripts/deploy-fly.sh
+# 自己的域名：fly certs add 看板.你的域名.com   然后把 CNAME 指到 <app-name>.fly.dev
+
+app = "gmunu-metric-foundry"
+primary_region = "sjc"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  NODE_ENV = "production"
+  MACROVOL_PYTHON = "/app/.venv/bin/python"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 50
+    soft_limit = 25
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "45s"
+    method = "GET"
+    path = "/api/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"
+
+[mounts]
+  source = "macrovol_data"
+  destination = "/app/data"
+  initial_size = "1gb"
