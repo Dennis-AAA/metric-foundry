@@ -29,7 +29,10 @@ export function RefreshButton({ enabled }: Props) {
         return;
       }
       setState("done");
-      setMessage(body.output?.split("\n").find((l) => l.startsWith("as_of")) ?? "已更新");
+      const asOf = body.output?.split("\n").find((l) => l.startsWith("as_of")) ?? "";
+      const pick = (k: string) => asOf.match(new RegExp(`${k}=([^\\s]+)`))?.[1] ?? "—";
+      const now = new Date().toLocaleTimeString("zh-CN", { hour12: false, timeZone: "Asia/Shanghai" });
+      setMessage(`刷新完成 ${now}（北京时间）· 价格 ${pick("prices")} · COT ${pick("cot")} · 期权链 ${pick("options")}`);
       router.refresh();
     } catch (err) {
       setState("error");
@@ -48,7 +51,12 @@ export function RefreshButton({ enabled }: Props) {
           周度刷新
         </Button>
       </div>
-      {message && <div className={`max-w-md text-right text-[11px] ${state === "error" ? "text-rose-600" : "text-slate-500"}`}>{message}</div>}
+      {message && (
+        <div className={`max-w-md text-right text-[11px] ${state === "error" ? "text-rose-600" : state === "done" ? "text-emerald-700" : "text-slate-500"}`}>
+          {state === "error" && "刷新失败："}
+          {message}
+        </div>
+      )}
     </div>
   );
 }
