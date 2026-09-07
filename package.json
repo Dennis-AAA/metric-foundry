@@ -1,12 +1,15 @@
 {
-  "name": "tmp-scaffold",
+  "name": "macro-vol-dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "signals": "python -m macrovol.cli run",
+    "signals:weekly": "python -m macrovol.cli run --mode weekly"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
