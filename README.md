@@ -5,7 +5,7 @@
 - `engine/` — Python 信号引擎 `macrovol`：抓数据 → 打分 → 写 `data/latest.json`
 - `data/` — 最新快照、每日历史快照 `history/`、用于历史走势的 `timeline.json`
 - `src/` — Next.js 16 + Tailwind + shadcn/ui 看板：矩阵表、单元格解释、逐资产钻取（Gamma 曲线、COT、IV 走势）、方法说明页
-- `.github/workflows/update-signals.yml` — 周一至周五收盘后日度更新、周五 COT 发布后周度更新，结果自动提交回仓库
+- `.github/workflows/pages.yml` — 推到 GitHub `main` 或每个工作日自动：重算信号并发布到 GitHub Pages
 
 ## 本地运行
 
@@ -68,47 +68,34 @@ python -m macrovol.cli run --intraday           # 保留当天未收盘的行
 
 每次运行提交 `data/latest.json`、`data/timeline.json` 和 `data/history/<日期>.json`。前端部署（Vercel、静态托管或自托管 `npm run build && npm start`）读到新提交即更新。
 
-## 挂到固定域名（推荐 Fly.io）
+## 发布到 GitHub，做成永久网页（GitHub Pages）
 
-日度刷新要跑 Python 并写回 `data/`，所以必须是常驻进程，不能用 Vercel / Cloudflare Pages。Fly 会给你一个**不会变**的地址：`https://gmunu-metric-foundry.fly.dev`，右上角刷新一样能点。
+GitHub 免费账号即可。地址形如 **`https://<你的用户名>.github.io/metric-foundry/`**，仓库公开后任何人都能打开；每个工作日 Actions 会重算数据并更新页面。
 
-在自己电脑上（先按上面的 Origin CLI 把仓库 clone 下来）：
+这台云主机**登不进你的 GitHub**，需要你在自己电脑执行一次（会打开浏览器登录）：
 
 ```bash
-# 1. 注册/登录 Fly（浏览器授权，可用 GitHub / Google）
-curl -fsSL https://fly.io/install.sh | sh
-export PATH="$HOME/.fly/bin:$PATH"
-fly auth login
-
-# 2. 创建应用、1GB 数据盘并发布
+# 把仓库拉到本地
+curl -fsSL https://downloads.cursor.com/origin/install.sh | sh
+origin auth login
+origin repo clone psi-gmunu/metric-foundry
 cd metric-foundry
-bash scripts/deploy-fly.sh
+
+# 安装 GitHub CLI 并登录，然后一键建仓库 + 推送 + 打开 Pages
+# macOS: brew install gh
+gh auth login
+bash scripts/publish-github.sh
 ```
 
-成功后打开 **https://gmunu-metric-foundry.fly.dev** 。以后改代码再跑一遍 `fly deploy` 即可。
+脚本会：用你的账号创建公开仓库 `metric-foundry`、把当前代码推到 `main`、打开 GitHub Pages（构建来源 = Actions）、触发第一次发布。大约 1–3 分钟后打开打印出来的 `https://<用户名>.github.io/metric-foundry/`。
 
-### 用自己的域名（例如 board.example.com）
+Pages 上没有现场「日度刷新」按钮（静态页跑不了 Python）。要立刻重算：仓库 → Actions → **Update and publish** → Run workflow。工作日 22:30 UTC 会自动跑。
 
-```bash
-fly certs add board.example.com -a gmunu-metric-foundry
-```
+若要用自己的域名：仓库 Settings → Pages → Custom domain，把 CNAME 指到 `<用户名>.github.io`。
 
-然后在域名 DNS 加一条：
+### 可选：Fly.io（页面上也能点刷新）
 
-| 类型 | 主机记录 | 目标 |
-| --- | --- | --- |
-| CNAME | `board` | `gmunu-metric-foundry.fly.dev` |
-
-证书由 Fly 自动签。把 `board.example.com` 换成你已经买好的域名即可。
-
-### 临时分享（地址会变）
-
-当前这次会话上的 Cloudflare 隧道仍可用，但**不是**固定域名，会话结束就没了：
-
-```bash
-npm run build && npm run start    # :8080 / :43180
-npm run public                    # https://*.trycloudflare.com
-```
+需要额外的 Fly 账号。`bash scripts/deploy-fly.sh` 之后地址为 `https://gmunu-metric-foundry.fly.dev`，右上角刷新可用。绑定自己的域名：`fly certs add board.example.com -a gmunu-metric-foundry`，DNS CNAME → `gmunu-metric-foundry.fly.dev`。
 
 ## 数据源
 

@@ -8,6 +8,7 @@
     "start": "node scripts/start-web.mjs",
     "public": "bash scripts/public-tunnel.sh",
     "deploy": "bash scripts/deploy-fly.sh",
+    "publish:github": "bash scripts/publish-github.sh",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "signals": "python -m macrovol.cli run",

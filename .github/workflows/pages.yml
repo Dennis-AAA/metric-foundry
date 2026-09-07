@@ -1,0 +1,94 @@
+name: Update and publish
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Daily: Mon-Fri 22:30 UTC after the US futures settlement
+    - cron: "30 22 * * 1-5"
+    # Weekly: Friday 21:00 UTC after the CFTC COT release
+    - cron: "0 21 * * 5"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "daily or weekly"
+        required: false
+        default: "daily"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install engine
+        run: pip install -e ./engine
+
+      - name: Decide mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 21 * * 5" ]; then
+            echo "mode=weekly" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=daily" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Refresh signals
+        run: python -m macrovol.cli run --mode "${{ steps.mode.outputs.mode }}" --cache-hours 0
+        continue-on-error: true
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/latest.json data/timeline.json data/history public/latest.json public/timeline.json
+          if git diff --cached --quiet; then
+            echo "no data changes"
+          else
+            git commit -m "data: ${{ steps.mode.outputs.mode }} snapshot $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install and static-export
+        env:
+          GITHUB_PAGES: "1"
+          PAGES_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+        run: |
+          npm ci
+          rm -rf src/app/api
+          npm run build
+          touch out/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

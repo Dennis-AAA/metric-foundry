@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { publicUrl } from "@/lib/public-path";
 
 interface Props {
   enabled: boolean;
@@ -21,7 +22,7 @@ export function RefreshButton({ enabled }: Props) {
     setState("running");
     setMessage(`正在拉取数据并重算（${mode === "weekly" ? "周度·含 COT" : "日度"}），通常需要 20–60 秒…`);
     try {
-      const res = await fetch("/api/refresh", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode }) });
+      const res = await fetch(publicUrl("/api/refresh"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode }) });
       const body = (await res.json()) as { ok: boolean; output?: string; error?: string };
       if (!res.ok || !body.ok) {
         setState("error");

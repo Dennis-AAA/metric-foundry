@@ -12,7 +12,7 @@ import pandas as pd
 from . import config as C
 from . import signals
 from .cache import Cache
-from .config import ASSETS, AssetSpec
+from .config import ASSETS, REPO_ROOT, AssetSpec
 from .options import atm_iv_from_book, compute_gex, compute_skew
 from .sources.cboe import fetch_cboe_index
 from .sources.cftc import fetch_cot
@@ -224,6 +224,11 @@ def write_outputs(snapshot: dict, data_dir: Path) -> dict[str, Path]:
     timeline = build_timeline(hist_dir)
     tl_file = data_dir / "timeline.json"
     tl_file.write_text(json.dumps(timeline, ensure_ascii=False))
+    public = REPO_ROOT / "public"
+    if public.is_dir() and data_dir.resolve() == C.DATA_DIR.resolve():
+        public.mkdir(parents=True, exist_ok=True)
+        (public / "latest.json").write_text(latest.read_text())
+        (public / "timeline.json").write_text(tl_file.read_text())
     return {"latest": latest, "history": hist_file, "timeline": tl_file}
 
 
