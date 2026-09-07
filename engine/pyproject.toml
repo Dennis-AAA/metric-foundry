@@ -1,0 +1,29 @@
+[project]
+name = "macrovol"
+version = "0.1.0"
+description = "Direction x volatility signal engine (Delta / Vega / Skew / Gamma / Vol regime) for ES, ZN, EUR, JPY, GC, CL"
+requires-python = ">=3.10"
+dependencies = [
+  "yfinance>=0.2.50",
+  "pandas>=2.1",
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+macrovol = "macrovol.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["macrovol*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
