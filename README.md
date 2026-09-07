@@ -25,7 +25,7 @@ npm install
 npm run dev -- --port 43117
 ```
 
-打开 http://127.0.0.1:43117 。页面每次请求都直接读取 `data/latest.json`，重新跑引擎后刷新即可；本地也可以直接点右上角「日度刷新 / 周度刷新」，它会调用 `/api/refresh` 在服务器上运行引擎（`MACROVOL_ALLOW_REFRESH=0` 或 Vercel 环境下自动禁用）。
+打开 http://127.0.0.1:43117 。页面每次请求都直接读取 `data/latest.json`，重新跑引擎后刷新即可；右上角「日度刷新 / 周度刷新」会调用 `/api/refresh` 在同一台机器上跑引擎（90 秒冷却，防止连点）。`MACROVOL_ALLOW_REFRESH=0` 或 Vercel 无盘环境会自动关掉按钮。若要给公网加口令，设 `MACROVOL_REFRESH_TOKEN`。
 
 常用参数：
 
@@ -67,6 +67,33 @@ python -m macrovol.cli run --intraday           # 保留当天未收盘的行
 - 也可以在 Actions 页手动触发并选择 mode
 
 每次运行提交 `data/latest.json`、`data/timeline.json` 和 `data/history/<日期>.json`。前端部署（Vercel、静态托管或自托管 `npm run build && npm start`）读到新提交即更新。
+
+## 发到公网（别的电脑也能打开，也能点日度刷新）
+
+日度刷新必须跑 Python 引擎并写回 `data/`，所以需要一台**常驻进程**的主机，不能用纯静态页或 Vercel Serverless。
+
+### 本机 / 这台云主机立刻分享
+
+```bash
+npm run build
+npm run start          # 0.0.0.0:43180，带刷新接口
+npm run public         # Cloudflare Quick Tunnel → https://*.trycloudflare.com
+```
+
+把终端里打印的 `https://….trycloudflare.com` 发给任何电脑或手机即可打开，右上角「日度刷新」会打到这台机器上重算。Quick Tunnel **没有账号、不需要域名**，但地址每次重启会变，进程停了页面也就没了。
+
+### 长期挂在自己的服务器
+
+仓库根目录有 `Dockerfile`：
+
+```bash
+docker build -t macro-vol .
+docker run -p 43180:43180 macro-vol
+```
+
+或把仓库接到 Render / Fly / Railway 一类「Web Service」，启动命令 `npm run start`，构建命令 `npm ci && python3 -m venv .venv && .venv/bin/pip install -e ./engine && npm run build`。这些平台给固定 HTTPS 域名，刷新按钮一样可用。
+
+不要用 Vercel / Cloudflare Pages 当主站来点刷新：它们读不到本机 Python，也写不回磁盘。可以用它们只托管前端，数据更新改走 GitHub Actions。
 
 ## 数据源
 

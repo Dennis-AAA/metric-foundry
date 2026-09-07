@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --hostname 0.0.0.0 --port 43117",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/start-web.mjs",
+    "public": "bash scripts/public-tunnel.sh",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "signals": "python -m macrovol.cli run",

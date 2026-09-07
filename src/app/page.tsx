@@ -7,14 +7,9 @@ import { MobileCards } from "@/components/dashboard/mobile-cards";
 import { StatusBar } from "@/components/dashboard/status-bar";
 import { Button } from "@/components/ui/button";
 import { listHistoryDates, loadSnapshot, loadTimeline } from "@/lib/data";
+import { refreshEnabled } from "@/lib/refresh";
 
 export const dynamic = "force-dynamic";
-
-function refreshEnabled(): boolean {
-  if (process.env.MACROVOL_ALLOW_REFRESH === "0") return false;
-  if (process.env.VERCEL) return false;
-  return true;
-}
 
 export default async function Page() {
   const [snapshot, timeline, history] = await Promise.all([loadSnapshot(), loadTimeline(), listHistoryDates()]);
