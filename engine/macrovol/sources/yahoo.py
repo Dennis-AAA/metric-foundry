@@ -25,7 +25,7 @@ def fetch_closes(tickers: list[str], cache: Cache, period: str = "3y") -> pd.Dat
     if cached is not None:
         return cached
     if cache.offline:
-        raise SourceError("offline and no cached Yahoo closes")
+        raise SourceError(f"offline mode but no cached Yahoo closes in {cache.root}; run once online first")
     try:
         raw = yf.download(
             tickers,

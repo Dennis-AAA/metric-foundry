@@ -28,6 +28,7 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--skip-options", action="store_true", help="skip option chains (faster; Skew/Gamma become 无数据)")
     run.add_argument("--intraday", action="store_true", help="keep today's partially completed session")
     run.add_argument("--cache-hours", type=float, default=6.0, help="reuse cached raw data younger than this")
+    run.add_argument("--cache-dir", type=Path, default=CACHE_DIR, help="raw provider cache (default: <repo>/data/cache)")
     run.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -35,7 +36,7 @@ def main(argv: list[str] | None = None) -> int:
     for noisy in ("yfinance", "urllib3", "peewee", "requests"):
         logging.getLogger(noisy).setLevel(logging.WARNING)
 
-    cache = Cache(CACHE_DIR if args.out == DATA_DIR else args.out / "cache", offline=args.offline, max_age_hours=args.cache_hours)
+    cache = Cache(args.cache_dir, offline=args.offline, max_age_hours=args.cache_hours)
     assets = None
     if args.assets:
         unknown = [k for k in args.assets if k not in ASSET_BY_KEY]

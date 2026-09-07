@@ -54,7 +54,8 @@ def build_snapshot(cache: Cache, mode: str = "daily", assets: list[AssetSpec] | 
     src = SourceLog()
 
     # ---- prices -------------------------------------------------------------------
-    tickers = [a.futures_ticker for a in assets] + list(C.AUX_TICKERS.values())
+    # always pull the full universe so the cache key is stable across --assets subsets
+    tickers = [a.futures_ticker for a in ASSETS] + list(C.AUX_TICKERS.values())
     try:
         closes = fetch_closes(tickers, cache)
         closes = _drop_partial_session(closes, intraday)
