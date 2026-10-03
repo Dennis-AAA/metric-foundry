@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-03T00:12:16Z",
- "mode": "weekly",
+ "generated_at": "2026-10-03T01:17:27Z",
+ "mode": "daily",
  "as_of": {
   "prices": "2026-10-02",
   "vol_indices": "2026-10-02",
