@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-31T00:29:08Z",
- "mode": "weekly",
+ "generated_at": "2026-10-31T01:43:34Z",
+ "mode": "daily",
  "as_of": {
   "prices": "2026-10-30",
   "vol_indices": "2026-10-30",
@@ -69,15 +69,15 @@
    "chg_1d_pct": -1.8,
    "cot_date": "2026-10-27",
    "heat": {
-    "value": 4,
+    "value": 6,
     "max": 12,
     "parts": {
      "short": 0,
      "long": 0,
-     "vega": 1,
+     "vega": 2,
      "skew": 1,
      "gamma": 2,
-     "regime": 0
+     "regime": 1
     }
    },
    "short": {
@@ -156,29 +156,29 @@
     }
    },
    "vega": {
-    "score": -1,
-    "label": "卖波",
+    "score": -2,
+    "label": "强卖波",
     "warn": false,
     "metrics": {
-     "iv": 17.2,
+     "iv": 19.42,
      "iv_source": "VIX 指数",
-     "iv_pct_1y": 52.0,
+     "iv_pct_1y": 77.0,
      "rv20": 11.48,
      "rv60": 10.56,
-     "iv_minus_rv": 5.72,
-     "carry": 50.0,
-     "level_pts": 0,
+     "iv_minus_rv": 7.94,
+     "carry": 69.0,
+     "level_pts": -1,
      "carry_pts": -1,
      "term": {
-      "vix9d_vix": 1.119,
-      "vix_vix3m": 0.828,
+      "vix9d_vix": 0.991,
+      "vix_vix3m": 0.935,
       "vvix": 106.43,
       "shape": "正常(contango)"
      }
     },
     "why": [
-     "IV 1年分位 52%",
-     "IV/RV20 溢价 +50%"
+     "IV 1年分位 77%",
+     "IV/RV20 溢价 +69%"
     ]
    },
    "skew": {
@@ -199,13 +199,13 @@
       118,
       166
      ],
-     "skew_index": 151.03,
+     "skew_index": 149.76,
      "proxy": "SPY"
     },
     "why": [
      "25Δ RR = -3.79 vol (-23% of ATM)",
      "相对常态 (-30%) 偏离 +7%",
-     "CBOE SKEW 151.0"
+     "CBOE SKEW 149.8"
     ]
    },
    "gamma": {
@@ -394,24 +394,24 @@
     ]
    },
    "regime": {
-    "code": "calm",
-    "label": "平静",
-    "heat": 0,
+    "code": "high_easing",
+    "label": "高Vol缓和",
+    "heat": 1,
     "warn": false,
     "metrics": {
-     "vol_now": 17.2,
-     "vol_pct_1y": 52.0,
-     "chg_5d_pct": -10.0,
-     "vov_pct_1y": 58.0,
+     "vol_now": 19.42,
+     "vol_pct_1y": 77.0,
+     "chg_5d_pct": -0.0,
+     "vov_pct_1y": 62.0,
      "rv20": 11.48,
      "rv60": 10.56,
      "rv_ratio": 1.09,
      "source": "VIX 指数"
     },
     "why": [
-     "波动率1年分位 52%",
-     "5日变化 -10%",
-     "vol-of-vol 分位 58%",
+     "波动率1年分位 77%",
+     "5日变化 -0%",
+     "vol-of-vol 分位 62%",
      "RV20/RV60 = 1.09"
     ]
    },
@@ -780,10 +780,6 @@
     ],
     "iv": [
      [
-      "2026-06-26",
-      18.41
-     ],
-     [
       "2026-06-29",
       17.65
      ],
@@ -1138,6 +1134,10 @@
      [
       "2026-10-29",
       17.2
+     ],
+     [
+      "2026-10-30",
+      19.42
      ]
     ],
     "fm_net_pct": [
