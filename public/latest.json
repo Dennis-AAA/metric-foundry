@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-11-14T01:19:32Z",
- "mode": "weekly",
+ "generated_at": "2026-11-14T02:35:16Z",
+ "mode": "daily",
  "as_of": {
   "prices": "2026-11-13",
   "vol_indices": "2026-11-13",
@@ -23,17 +23,17 @@
   {
    "name": "SPY 期权链",
    "status": "ok",
-   "detail": "14 个到期, OI 12,030,644"
+   "detail": "14 个到期, OI 12,030,471"
   },
   {
    "name": "TLT 期权链",
    "status": "ok",
-   "detail": "11 个到期, OI 7,372,089"
+   "detail": "11 个到期, OI 7,371,365"
   },
   {
    "name": "FXE 期权链",
    "status": "ok",
-   "detail": "2 个到期, OI 7,909"
+   "detail": "2 个到期, OI 7,884"
   },
   {
    "name": "FXY 期权链",
@@ -43,12 +43,12 @@
   {
    "name": "GLD 期权链",
    "status": "ok",
-   "detail": "12 个到期, OI 3,512,409"
+   "detail": "12 个到期, OI 3,512,289"
   },
   {
    "name": "USO 期权链",
    "status": "ok",
-   "detail": "8 个到期, OI 810,096"
+   "detail": "8 个到期, OI 809,874"
   }
  ],
  "notes": {
@@ -69,12 +69,12 @@
    "chg_1d_pct": -0.71,
    "cot_date": "2026-11-03",
    "heat": {
-    "value": 6,
+    "value": 5,
     "max": 12,
     "parts": {
      "short": 0,
      "long": 0,
-     "vega": 1,
+     "vega": 0,
      "skew": 2,
      "gamma": 2,
      "regime": 1
@@ -156,29 +156,30 @@
     }
    },
    "vega": {
-    "score": 1,
-    "label": "买波",
-    "warn": false,
+    "score": 0,
+    "label": "中性",
+    "warn": true,
     "metrics": {
-     "iv": 18.7,
+     "iv": 19.3,
      "iv_source": "VIX 指数",
-     "iv_pct_1y": 71.0,
+     "iv_pct_1y": 77.0,
      "rv20": 21.69,
      "rv60": 15.16,
-     "iv_minus_rv": -2.99,
-     "carry": -14.0,
-     "level_pts": 0,
+     "iv_minus_rv": -2.39,
+     "carry": -11.0,
+     "level_pts": -1,
      "carry_pts": 1,
      "term": {
-      "vix9d_vix": 0.953,
-      "vix_vix3m": 0.907,
+      "vix9d_vix": 0.923,
+      "vix_vix3m": 0.936,
       "vvix": 101.53,
       "shape": "正常(contango)"
      }
     },
     "why": [
-     "IV 1年分位 71%",
-     "IV/RV20 溢价 -14%"
+     "IV 1年分位 77%",
+     "IV/RV20 溢价 -11%",
+     "水位与 carry 信号冲突"
     ]
    },
    "skew": {
@@ -221,7 +222,7 @@
      "flip": 760.13,
      "spot": 754.37,
      "spot_vs_flip_pct": -0.76,
-     "total_oi": 10216123,
+     "total_oi": 10215950,
      "n_expiries": 12,
      "max_dte": 47,
      "proxy": "SPY",
@@ -232,11 +233,11 @@
       ],
       [
        648.76,
-       -6.099
+       -6.1
       ],
       [
        656.3,
-       -6.548
+       -6.549
       ],
       [
        663.85,
@@ -399,19 +400,19 @@
     "heat": 1,
     "warn": false,
     "metrics": {
-     "vol_now": 18.7,
-     "vol_pct_1y": 71.0,
-     "chg_5d_pct": -34.0,
-     "vov_pct_1y": 100.0,
+     "vol_now": 19.3,
+     "vol_pct_1y": 77.0,
+     "chg_5d_pct": -25.0,
+     "vov_pct_1y": 98.0,
      "rv20": 21.69,
      "rv60": 15.16,
      "rv_ratio": 1.43,
      "source": "VIX 指数"
     },
     "why": [
-     "波动率1年分位 71%",
-     "5日变化 -34%",
-     "vol-of-vol 分位 100%",
+     "波动率1年分位 77%",
+     "5日变化 -25%",
+     "vol-of-vol 分位 98%",
      "RV20/RV60 = 1.43"
     ]
    },
@@ -780,10 +781,6 @@
     ],
     "iv": [
      [
-      "2026-07-10",
-      15.03
-     ],
-     [
       "2026-07-13",
       17.16
      ],
@@ -1138,6 +1135,10 @@
      [
       "2026-11-12",
       18.7
+     ],
+     [
+      "2026-11-13",
+      19.3
      ]
     ],
     "fm_net_pct": [
@@ -1723,7 +1724,7 @@
      "flip": 79.34,
      "spot": 79.38,
      "spot_vs_flip_pct": 0.05,
-     "total_oi": 4845983,
+     "total_oi": 4845663,
      "n_expiries": 10,
      "max_dte": 47,
      "proxy": "TLT",
@@ -3209,11 +3210,11 @@
      "net_gex_bn": -0.001,
      "call_gex_bn": 0.001,
      "put_gex_bn": 0.003,
-     "ratio": -0.337,
-     "flip": 112.23,
+     "ratio": -0.338,
+     "flip": 112.25,
      "spot": 101.71,
-     "spot_vs_flip_pct": -9.37,
-     "total_oi": 7909,
+     "spot_vs_flip_pct": -9.39,
+     "total_oi": 7884,
      "n_expiries": 2,
      "max_dte": 34,
      "proxy": "FXE",
@@ -5482,7 +5483,7 @@
      "flip": 365.62,
      "spot": 355.45,
      "spot_vs_flip_pct": -2.78,
-     "total_oi": 2152255,
+     "total_oi": 2152184,
      "n_expiries": 11,
      "max_dte": 47,
      "proxy": "GLD",
