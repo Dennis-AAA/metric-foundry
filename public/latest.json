@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-11-21T02:00:10Z",
- "mode": "weekly",
+ "generated_at": "2026-11-21T03:20:38Z",
+ "mode": "daily",
  "as_of": {
   "prices": "2026-11-20",
   "vol_indices": "2026-11-20",
@@ -23,17 +23,17 @@
   {
    "name": "SPY 期权链",
    "status": "ok",
-   "detail": "16 个到期, OI 10,050,401"
+   "detail": "16 个到期, OI 10,050,395"
   },
   {
    "name": "TLT 期权链",
    "status": "ok",
-   "detail": "12 个到期, OI 6,870,662"
+   "detail": "12 个到期, OI 6,869,952"
   },
   {
    "name": "FXE 期权链",
    "status": "ok",
-   "detail": "2 个到期, OI 6,178"
+   "detail": "2 个到期, OI 6,153"
   },
   {
    "name": "FXY 期权链",
@@ -43,12 +43,12 @@
   {
    "name": "GLD 期权链",
    "status": "ok",
-   "detail": "15 个到期, OI 2,735,198"
+   "detail": "15 个到期, OI 2,735,149"
   },
   {
    "name": "USO 期权链",
    "status": "ok",
-   "detail": "10 个到期, OI 658,831"
+   "detail": "10 个到期, OI 658,682"
   }
  ],
  "notes": {
@@ -160,25 +160,25 @@
     "label": "强卖波",
     "warn": false,
     "metrics": {
-     "iv": 28.44,
+     "iv": 35.89,
      "iv_source": "VIX 指数",
-     "iv_pct_1y": 98.0,
+     "iv_pct_1y": 100.0,
      "rv20": 25.01,
      "rv60": 17.29,
-     "iv_minus_rv": 3.43,
-     "carry": 14.0,
+     "iv_minus_rv": 10.88,
+     "carry": 43.0,
      "level_pts": -2,
-     "carry_pts": 0,
+     "carry_pts": -1,
      "term": {
-      "vix9d_vix": 1.432,
-      "vix_vix3m": 0.919,
+      "vix9d_vix": 1.135,
+      "vix_vix3m": 1.16,
       "vvix": 138.03,
-      "shape": "正常(contango)"
+      "shape": "倒挂(backwardation)"
      }
     },
     "why": [
-     "IV 1年分位 98%",
-     "IV/RV20 溢价 +14%"
+     "IV 1年分位 100%",
+     "IV/RV20 溢价 +43%"
     ]
    },
    "skew": {
@@ -199,13 +199,13 @@
       208,
       144
      ],
-     "skew_index": 140.86,
+     "skew_index": 138.84,
      "proxy": "SPY"
     },
     "why": [
      "25Δ RR = -7.77 vol (-27% of ATM)",
      "相对常态 (-30%) 偏离 +3%",
-     "CBOE SKEW 140.9"
+     "CBOE SKEW 138.8"
     ]
    },
    "gamma": {
@@ -221,7 +221,7 @@
      "flip": 746.28,
      "spot": 689.81,
      "spot_vs_flip_pct": -7.57,
-     "total_oi": 9539940,
+     "total_oi": 9539934,
      "n_expiries": 14,
      "max_dte": 55,
      "proxy": "SPY",
@@ -399,19 +399,19 @@
     "heat": 2,
     "warn": false,
     "metrics": {
-     "vol_now": 28.44,
-     "vol_pct_1y": 98.0,
-     "chg_5d_pct": 52.0,
-     "vov_pct_1y": 98.0,
+     "vol_now": 35.89,
+     "vol_pct_1y": 100.0,
+     "chg_5d_pct": 86.0,
+     "vov_pct_1y": 100.0,
      "rv20": 25.01,
      "rv60": 17.29,
      "rv_ratio": 1.45,
      "source": "VIX 指数"
     },
     "why": [
-     "波动率1年分位 98%",
-     "5日变化 +52%",
-     "vol-of-vol 分位 98%",
+     "波动率1年分位 100%",
+     "5日变化 +86%",
+     "vol-of-vol 分位 100%",
      "RV20/RV60 = 1.45"
     ]
    },
@@ -780,10 +780,6 @@
     ],
     "iv": [
      [
-      "2026-07-17",
-      18.77
-     ],
-     [
       "2026-07-20",
       18.65
      ],
@@ -1138,6 +1134,10 @@
      [
       "2026-11-19",
       28.44
+     ],
+     [
+      "2026-11-20",
+      35.89
      ]
     ],
     "fm_net_pct": [
@@ -1723,7 +1723,7 @@
      "flip": 78.88,
      "spot": 81.45,
      "spot_vs_flip_pct": 3.25,
-     "total_oi": 6380853,
+     "total_oi": 6380143,
      "n_expiries": 11,
      "max_dte": 55,
      "proxy": "TLT",
@@ -3209,11 +3209,11 @@
      "net_gex_bn": -0.001,
      "call_gex_bn": 0.001,
      "put_gex_bn": 0.002,
-     "ratio": -0.289,
-     "flip": 113.22,
+     "ratio": -0.291,
+     "flip": 113.26,
      "spot": 101.21,
-     "spot_vs_flip_pct": -10.61,
-     "total_oi": 6178,
+     "spot_vs_flip_pct": -10.64,
+     "total_oi": 6153,
      "n_expiries": 2,
      "max_dte": 55,
      "proxy": "FXE",
@@ -3381,7 +3381,7 @@
     "why": [
      "净 GEX -0.00 bn$/1%",
      "看涨/看跌 gamma 比 -0.29",
-     "Gamma 翻转位 113.2（现价偏离 -10.6%）",
+     "Gamma 翻转位 113.3（现价偏离 -10.6%）",
      "做市商空Gamma → 追涨杀跌，波动放大",
      "FXE ETF 期权仅是期货做市商仓位的弱代理"
     ]
@@ -5501,7 +5501,7 @@
      "flip": 345.7,
      "spot": 322.87,
      "spot_vs_flip_pct": -6.6,
-     "total_oi": 2638651,
+     "total_oi": 2638602,
      "n_expiries": 14,
      "max_dte": 55,
      "proxy": "GLD",
@@ -7004,7 +7004,7 @@
      "flip": 134.18,
      "spot": 139.63,
      "spot_vs_flip_pct": 4.06,
-     "total_oi": 634860,
+     "total_oi": 634711,
      "n_expiries": 9,
      "max_dte": 55,
      "proxy": "USO",
